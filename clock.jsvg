@@ -1,0 +1,9 @@
+<svg viewbox="0 0 100 100">
+  <circle class="face"           cx="50" cy="50" r="45"/>
+  <line   class="hourhand"       x1="50" y1="50" x2="50" y2="20"   style="transform:rotate({{h*30}}deg);                        display:{{hourhand === 'yes'   ?'block':'none'}};" />
+  <line   class="minutehand"     x1="50" y1="50" x2="50" y2="17.5" style="transform:rotate({{m*6}}deg);                         display:{{minutehand === 'yes' ?'block':'none'}};" />
+  <line   class="secondhand"     x1="50" y1="50" x2="50" y2="15"   style="transform:rotate({{s*6}}deg);                         display:{{secondhand === 'yes' ?'block':'none'}};" />
+  <circle class="hourtracker"    cx="50" cy="50" r="45"            style="stroke-dashoffset:{{282.74333-((282.74333/12)*h)}}px; display:{{hourhand === 'yes'   ?'block':'none'}};" />
+  <circle class="minutetracker"  cx="50" cy="50" r="45"            style="stroke-dashoffset:{{282.74333-((282.74333/60)*m)}}px; display:{{minutehand === 'yes' ?'block':'none'}};" />
+  <circle class="secondtracker"  cx="50" cy="50" r="45"            style="stroke-dashoffset:{{282.74333-((282.74333/60)*s)}}px; display:{{secondhand === 'yes' ?'block':'none'}};" />
+</svg>

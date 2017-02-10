@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-interval-service-production</title>
+  <script src="http://code.angularjs.org/snapshot/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <style>
+    body {background:black; color:white;}
+    svg {display:block; margin:0 auto; width:300px; height:300px;}
+    svg .face {stroke-width:10; fill:transparent; stroke:rgba(128,128,128,0.33333);}
+    svg .hourhand, svg .minutehand, svg .secondhand {stroke-linecap:round; transform-origin:50% 50%; transition:all 500ms cubic-bezier(0.95, 0.05, 0.795, 0.035);}
+    svg .hourhand {stroke:rgba(128,0,0,0.33333); stroke-width:10;}
+    svg .minutehand {stroke:rgba(0,128,0,0.33333); stroke-width:6;}
+    svg .secondhand {stroke:rgba(0,0,128,0.33333); stroke-width:2;}
+    svg .hourtracker, svg .minutetracker, svg .secondtracker {fill:transparent; transform-origin:50% 50%; transform:rotate(-90deg); stroke-dasharray:282.74333; /* 2pi*r */ transition:all 500ms cubic-bezier(0.95, 0.05, 0.795, 0.035);}
+    svg .hourtracker {stroke-width:10; stroke:rgba(128,0,0,0.33333);}
+    svg .minutetracker {stroke-width:6; stroke:rgba(0,128,0,0.33333);}
+    svg .secondtracker {stroke-width:2; stroke:rgba(0,0,128,0.33333);}
+  </style>
+</head>
+<body>
+
+<div ng-app="intervalExample">
+  <div ng-controller="ExampleController">
+    <clock hourhand="yes" minutehand="yes" secondhand="yes"></clock>
+    <clock hourhand="yes" minutehand="yes" secondhand="no"></clock>
+  </div>
+</div>
+
+<script>
+  angular.module('intervalExample', [])
+  .controller('ExampleController', ['$scope', '$interval', function($scope, $interval) {
+    $scope.format = 'Do MMMM Y hh:mm:ss A';
+    $scope.$on('$destroy', function() {});
+  }])
+  .directive('clock', ['$interval','$parse', function($interval, $parse) {
+
+    return {
+      templateUrl: 'clock.jsvg',
+      scope: {
+        hourhand: '@',
+        minutehand: '@',
+        secondhand: '@'
+      },
+      restrict: 'E',
+      link: function(scope, element, attrs) {
+
+        var t = $interval(function() {
+          thismoment = moment();
+          scope.h = thismoment.format('h');
+          scope.m = thismoment.format('m');
+          scope.s = thismoment.format('s');
+        }, 1000);
+
+        element.on('$destroy', function() {
+          $interval.cancel(t);
+        });
+        
+      }
+    }
+
+  }]);
+</script>
+
+</body>
+</html>
